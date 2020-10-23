@@ -88,5 +88,18 @@ public class MyPlayer : MonoBehaviour
         Vector3 deltaVelocity = newVelocity - m_Rigidbody.velocity;
 
         m_Rigidbody.AddForce(deltaVelocity, ForceMode.VelocityChange);
+
+        float rotAngle = hAxis * m_RotSpeed * Time.deltaTime;
+        Quaternion qRot = Quaternion.AngleAxis(rotAngle, m_Transform.up);
+        //quaternion d'orientation * quaternion de rotation = nouveau quaternion d'orientation
+        //Multiplication de droite à gauche
+        //Ne compile pas
+        //m_Rigidbody.MoveRotation(qRot * Rigidbody.rotation);
+
+
+        // torque = couple, newton/metres
+        Vector3 newAngularVelocity = hAxis * m_Transform.up * m_RotSpeed * Mathf.Deg2Rad;
+        Vector3 deltaAngularVelocity = newAngularVelocity - m_Rigidbody.angularVelocity;
+        m_Rigidbody.AddTorque(deltaAngularVelocity, ForceMode.VelocityChange);
     }
 }
