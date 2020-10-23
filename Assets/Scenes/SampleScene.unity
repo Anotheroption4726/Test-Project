@@ -405,6 +405,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TranslationSpeed: 1
+  m_RotSpeed: 100
 --- !u!1 &1795966291
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,6 +6,8 @@ public class MyPlayer : MonoBehaviour
 {
     //  Syntaxe 'PascalCase' pour paramêtres de classe
     [SerializeField] private float m_TranslationSpeed;
+    [Tooltip("Rotation in degrees per second")]
+    [SerializeField] private float m_RotSpeed;
 
     Transform m_Transform;
 
@@ -43,6 +45,18 @@ public class MyPlayer : MonoBehaviour
         
 
         //m_Transform.Translate(moveVect, Space.World);
+        //m_Transform.Translate(moveVectLocal, Space.Self);
+
+
+        float hAxis = Input.GetAxis("Horizontal");
+        float vAxis = Input.GetAxis("Vertical");
+
+        moveVectLocal = vAxis * Vector3.forward * m_TranslationSpeed * Time.deltaTime;
         m_Transform.Translate(moveVectLocal, Space.Self);
+
+
+        float rotAngle = hAxis * m_RotSpeed * Time.deltaTime;
+        //m_Transform.Rotate(new Vector3(0, 1, 0), rotAngle, Space.Self);
+        m_Transform.Rotate(m_Transform.up, rotAngle, Space.World);
     }
 }
