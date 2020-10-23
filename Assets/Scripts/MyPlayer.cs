@@ -10,6 +10,7 @@ public class MyPlayer : MonoBehaviour
     [SerializeField] private float m_RotSpeed;
 
     Transform m_Transform;
+    Rigidbody m_Rigidbody;
 
     // Getters et setters = Propriétés (en C#)
     public float GetTranslationSpeed()
@@ -21,6 +22,7 @@ public class MyPlayer : MonoBehaviour
     private void Awake()
     {
         m_Transform = GetComponent<Transform>();
+        m_Rigidbody = GetComponent<Rigidbody>();
     }
 
     // Initializations qui concernent les objets exterieurs (s'exécute après l'execution de tous les awake appartenant à tous les objets de la scene)
@@ -30,6 +32,7 @@ public class MyPlayer : MonoBehaviour
         float myVariable;
     }
 
+    /*
     void Update()
     {
         // .forward = vecteur donné dans le référentiel global
@@ -58,5 +61,32 @@ public class MyPlayer : MonoBehaviour
         float rotAngle = hAxis * m_RotSpeed * Time.deltaTime;
         //m_Transform.Rotate(new Vector3(0, 1, 0), rotAngle, Space.Self);
         m_Transform.Rotate(m_Transform.up, rotAngle, Space.World);
+    }
+    */
+
+    /*
+    void Update()
+    {
+        float hAxis = Input.GetAxis("Horizontal");
+        float vAxis = Input.GetAxis("Vertical");
+
+        Vector3 moveVect = Vector3.ClampMagnitude(new Vector3(hAxis, 0, vAxis)* m_TranslationSpeed * Time.deltaTime, 1);
+
+        m_Transform.Translate(moveVect, Space.Self);                                                                                                   
+    }       
+    */
+
+    void FixedUpdate()
+    {
+        float hAxis = Input.GetAxis("Horizontal");
+        float vAxis = Input.GetAxis("Vertical");
+
+        //Vector3 moveVect = vAxis * m_Transform.forward * m_TranslationSpeed * Time.fixedDeltaTime;
+        //m_Rigidbody.MovePosition(m_Rigidbody.position + moveVect);
+
+        Vector3 newVelocity = vAxis * m_Transform.forward * m_TranslationSpeed;
+        Vector3 deltaVelocity = newVelocity - m_Rigidbody.velocity;
+
+        m_Rigidbody.AddForce(deltaVelocity, ForceMode.VelocityChange);
     }
 }
