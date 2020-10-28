@@ -72,7 +72,7 @@ public class MyPlayer : MonoBehaviour
 
         Vector3 moveVect = Vector3.ClampMagnitude(new Vector3(hAxis, 0, vAxis)* m_TranslationSpeed * Time.deltaTime, 1);
 
-        m_Transform.Translate(moveVect, Space.Self);                                                                                                   
+        m_Transform.Translate(moveVect, Space.Self);                                     
     }       
     */
 
@@ -84,16 +84,18 @@ public class MyPlayer : MonoBehaviour
         //Vector3 moveVect = vAxis * m_Transform.forward * m_TranslationSpeed * Time.fixedDeltaTime;
         //m_Rigidbody.MovePosition(m_Rigidbody.position + moveVect);
 
-        Vector3 newVelocity = vAxis * m_Transform.forward * m_TranslationSpeed;
-        Vector3 deltaVelocity = newVelocity - m_Rigidbody.velocity;
+        //Vector3 newVelocity = vAxis * m_Transform.forward * m_TranslationSpeed;
+        //Vector3 deltaVelocity = newVelocity - m_Rigidbody.velocity;
 
-        m_Rigidbody.AddForce(deltaVelocity, ForceMode.VelocityChange);
+        //m_Rigidbody.AddForce(deltaVelocity, ForceMode.VelocityChange);
 
-        //float rotAngle = hAxis * m_RotSpeed * Time.deltaTime;
-        //Quaternion qRot = Quaternion.AngleAxis(rotAngle, m_Transform.up);
-        //quaternion d'orientation * quaternion de rotation = nouveau quaternion d'orientation
-        //Multiplication de droite à gauche
-        //m_Rigidbody.MoveRotation(qRot * m_Rigidbody.rotation);
+        /*
+        float rotAngle = hAxis * m_RotSpeed * Time.deltaTime;
+        Quaternion qRot = Quaternion.AngleAxis(rotAngle, m_Transform.up);
+        //  quaternion d'orientation * quaternion de rotation = quaternion de nouvelle orientation
+        //  !ATTENTION! Multiplication de droite à gauche
+        m_Rigidbody.MoveRotation(qRot * m_Rigidbody.rotation);
+        */
 
         /*
         // torque = couple, newton/metres
@@ -101,7 +103,6 @@ public class MyPlayer : MonoBehaviour
         Vector3 deltaAngularVelocity = newAngularVelocity - m_Rigidbody.angularVelocity;
         m_Rigidbody.AddTorque(deltaAngularVelocity, ForceMode.VelocityChange);
         */
-
 
         float rotAngle = hAxis * m_RotSpeed * Time.deltaTime;
         Quaternion qRot = Quaternion.AngleAxis(rotAngle, m_Transform.up);
