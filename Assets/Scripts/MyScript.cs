@@ -14,6 +14,12 @@ public class MyScript : MonoBehaviour, IWeapon
     //  Networking
     byte[] m_bytes;
 
+    // raycast
+    int m_nRays = 10;
+    [SerializeField] LayerMask m_RaycastLayerMask;
+    Vector3 m_MinDistancePos = Vector3.zero;
+
+
     [Header("Ball Shoot")]
     [SerializeField] GameObject m_BallPrefab;
     [SerializeField] Transform m_BallSpawnPoint;
@@ -31,6 +37,33 @@ public class MyScript : MonoBehaviour, IWeapon
     private void Start()
     {
         m_BallShotNextTime = Time.time;
+    }
+
+    private void Update()
+    {
+        float minDistance = float.PositiveInfinity;
+        Vector3 origin = m_Transform.position + Vector3.up;
+
+        for (int i = 0; i < m_nRays; i++)
+        {
+            float angle = i * 2 * Mathf.PI / m_nRays;
+            Vector3 dir = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle));
+
+            Debug.DrawLine(origin, origin + dir * 100f);
+
+            RaycastHit hit;
+
+            if(Physics.Raycast(origin, dir, out hit, float.PositiveInfinity, m_RaycastLayerMask.value))
+            {
+                float dist = Vector3.Distance(origin, hit.point);
+
+                if (dist < minDistance)
+                {
+                    minDistance = dist;
+                    m_MinDistancePos = hit.point;
+                }
+            }
+        }
     }
 
     void FixedUpdate()
@@ -78,5 +111,11 @@ public class MyScript : MonoBehaviour, IWeapon
         {
              m_bytes = request.uploadHandler.data;
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(m_MinDistancePos, 0.25f);
     }
 }
