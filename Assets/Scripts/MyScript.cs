@@ -55,6 +55,8 @@ public class MyScript : MonoBehaviour, IWeapon
             ShootBall();
             m_BallShotNextTime = Time.fixedTime + m_BallShotCooldownDuration;
         }
+
+        Debug.DrawRay(m_Transform.position, m_Rigidbody.velocity, Color.red, 2);
     }
 
     public void ShootBall()
